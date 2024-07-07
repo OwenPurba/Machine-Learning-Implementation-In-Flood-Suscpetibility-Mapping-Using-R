@@ -1,0 +1,81 @@
+# Membuat Peta
+# SVM Model 50:50
+p1 <- as.data.frame(predict(fit.svm1, scaled_df2, type = "prob"))
+summary(p1)
+scaled_df2$Levels_yes<-p1$yes
+scaled_df2$Levels_no<-p1$no
+xX1 <- SpatialPointsDataFrame(as.data.frame(scaled_df2)[,c("x","y")],
+                              data = scaled_df2)
+r_ave_yes1 <- rasterFromXYZ(as.data.frame(xX1)[, c("x", "y", "Levels_yes")])
+proj4string(r_ave_yes1)=CRS(projection(elv1))
+
+r_ave_no <- rasterFromXYZ(as.data.frame(xX1)[, c("x", "y", "Levels_no")])
+proj4string(r_ave_no)=CRS(projection(elv1))
+
+# Plot
+spplot(r_ave_yes1, main="Peta Kerentanan Banjir menggunakan SVM 50:50")
+writeRaster(r_ave_yes1,filename = "SVMALL_5050_yes_11", format="GTiff",
+            overwrite=TRUE)
+spplot(r_ave_no, main="Peta Kerentanan Banjir menggunakan SVM 50:50")
+writeRaster(r_ave_no,filename = "SVMALL_5050_no_11", format="GTiff",
+            overwrite=TRUE)
+# SVM Model 60:40
+p2 <- as.data.frame(predict(fit.svm2, scaled_df2, type = "prob"))
+summary(p2)
+scaled_df2$Levels_yes<-p2$yes
+scaled_df2$Levels_no<-p2$no
+xX12 <- SpatialPointsDataFrame(as.data.frame(scaled_df2)[,c("x","y")],
+                              data = scaled_df2)
+r_ave_yes2 <- rasterFromXYZ(as.data.frame(xX12)[, c("x", "y", "Levels_yes")])
+proj4string(r_ave_yes2)=CRS(projection(elv1))
+
+r_ave_no2 <- rasterFromXYZ(as.data.frame(xX12)[, c("x", "y", "Levels_no")])
+proj4string(r_ave_no2)=CRS(projection(elv1))
+
+# Plot
+spplot(r_ave_yes2, main="Peta Kerentanan Banjir menggunakan SVM 60:40")
+writeRaster(r_ave_yes2,filename = "SVMALL_6040_yes_11", format="GTiff",
+            overwrite=TRUE)
+spplot(r_ave_no2, main="Peta Kerentanan Banjir menggunakan SVM 60:40")
+writeRaster(r_ave_no2,filename = "SVMALL_6040_no_11", format="GTiff",
+            overwrite=TRUE)
+# SVM Model 70:30
+p3 <- as.data.frame(predict(fit.svm3, scaled_df2, type = "prob"))
+summary(p3)
+scaled_df2$Levels_yes<-p3$yes
+scaled_df2$Levels_no<-p3$no
+xX13 <- SpatialPointsDataFrame(as.data.frame(scaled_df2)[,c("x","y")],
+                               data = scaled_df2)
+r_ave_yes3 <- rasterFromXYZ(as.data.frame(xX13)[, c("x", "y", "Levels_yes")])
+proj4string(r_ave_yes3)=CRS(projection(elv1))
+
+r_ave_no3 <- rasterFromXYZ(as.data.frame(xX13)[, c("x", "y", "Levels_no")])
+proj4string(r_ave_no3)=CRS(projection(elv1))
+
+# Plot
+spplot(r_ave_yes3, main="Peta Kerentanan Banjir menggunakan SVM 70:30")
+writeRaster(r_ave_yes3,filename = "SVMALL_7030_yes_11", format="GTiff",
+            overwrite=TRUE)
+spplot(r_ave_no3, main="Peta Kerentanan Banjir menggunakan SVM 70:30")
+writeRaster(r_ave_no3,filename = "SVMALL_7030_no_11", format="GTiff",
+            overwrite=TRUE)
+#RF Model 70:30
+p4 <- as.data.frame(predict(fit_rf_final, scaled_df2, type = "prob"))
+summary(p4)
+scaled_df2$Levels_yes<-p4$yes
+scaled_df2$Levels_no<-p4$no
+xX14 <- SpatialPointsDataFrame(as.data.frame(scaled_df2)[,c("x","y")],
+                               data = scaled_df2)
+r_ave_yes4 <- rasterFromXYZ(as.data.frame(xX14)[, c("x", "y", "Levels_yes")])
+proj4string(r_ave_yes4)=CRS(projection(elv1))
+
+r_ave_no4 <- rasterFromXYZ(as.data.frame(xX14)[, c("x", "y", "Levels_no")])
+proj4string(r_ave_no4)=CRS(projection(elv1))
+
+# Plot
+spplot(r_ave_yes4, main="Peta Kerentanan Banjir menggunakan RF 70:30")
+writeRaster(r_ave_yes4,filename = "RFALL_7030_yes_11", format="GTiff",
+            overwrite=TRUE)
+spplot(r_ave_no4, main="Peta Kerentanan Banjir menggunakan RF 70:30")
+writeRaster(r_ave_no4,filename = "RFALL_7030_no_11", format="GTiff",
+            overwrite=TRUE)
